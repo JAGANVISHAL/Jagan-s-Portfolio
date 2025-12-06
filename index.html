@@ -38,13 +38,69 @@
     a {
       color: var(--accent);
       text-decoration: none;
-      transition: color 0.25s ease, text-shadow 0.25s ease;
+      transition: color 2s ease, text-shadow 2s ease;
     }
     a:hover {
       text-decoration: underline;
       color: #e0f2fe;
       text-shadow: 0 0 8px rgba(56,189,248,0.6);
     }
+.tag,
+h2 {
+  -webkit-user-select: none;
+  user-select: none;
+}
+h1 {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+h1:hover {
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(56,189,248,0.7);
+  cursor: pointer;
+}
+/* Remove default underline from all links */
+a {
+  text-decoration: none;
+  position: relative;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+/* Smooth underline animation */
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+/* Animate underline on hover */
+a:hover::after {
+  width: 100%;
+}
+.contact span:first-child {
+  font-weight: 500;
+  color: #e2e8f0;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+/* Remove ANY default underline anywhere */
+a,
+a:link,
+a:visited {
+  text-decoration: none !important;
+}
+
+.contact span:first-child:hover {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(56,189,248,0.6);
+}
+
 
     .page {
       max-width: 1000px;
@@ -398,7 +454,7 @@
       word-break: break-all;
     }
     section {
-  scroll-margin-top: 340px;
+  scroll-margin-top: 180px;
 }
   </style>
 </head>
@@ -585,116 +641,109 @@
   </div>
 
   <script>
-  // Set current year in footer
-  document.getElementById("year").textContent = new Date().getFullYear();
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-  const tags = document.querySelectorAll(".tag[data-target]");
-  const sections = document.querySelectorAll("main section");
-  const headings = document.querySelectorAll("main section h2");
+    const tags = document.querySelectorAll(".tag[data-target]");
+    const sections = document.querySelectorAll("main section");
 
-  // Smooth scroll function (you already had similar)
-  function smoothScrollTo(targetY, duration = 1000) {
-    const startY = window.scrollY;
-    const changeY = targetY - startY;
-    const startTime = performance.now();
+    function smoothScrollTo(targetY, duration = 1400) {
+      const startY = window.scrollY;
+      const changeY = targetY - startY;
+      const startTime = performance.now();
 
-    function animateScroll(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
 
-      // Ease-in-out
-      const ease = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        // Ease-in-out
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
-      window.scrollTo(0, startY + changeY * ease);
+        window.scrollTo(0, startY + changeY * ease);
 
-      if (progress < 1) requestAnimationFrame(animateScroll);
-    }
-
-    requestAnimationFrame(animateScroll);
-  }
-
-  function setActiveTagById(id) {
-    tags.forEach((tag) => {
-      if (tag.getAttribute("data-target") === id) {
-        tag.classList.add("active");
-      } else {
-        tag.classList.remove("active");
+        if (progress < 1) requestAnimationFrame(animateScroll);
       }
-    });
-  }
 
-  function goToSection(id) {
-    const section = document.getElementById(id);
-    if (!section) return;
-
-    const rect = section.getBoundingClientRect();
-
-    // 👉 If your header is NOT sticky anymore, keep this small (like 10)
-    // If header is still fixed, increase this value (e.g. 200–240)
-    const headerOffset = 10;
-
-    const y = rect.top + window.scrollY - headerOffset;
-
-    smoothScrollTo(y, 1000);
-
-    sections.forEach((s) => s.classList.remove("highlight"));
-    section.classList.add("highlight");
-    setActiveTagById(id);
-
-    setTimeout(() => {
-      section.classList.remove("highlight");
-    }, 2000);
-  }
-
-  // Attach instant event handler (pointerdown -> no mobile delay)
-  function addInstantListener(el, cb) {
-    if (window.PointerEvent) {
-      el.addEventListener("pointerdown", (e) => {
-        e.preventDefault();
-        cb(e);
-      });
-    } else {
-      // Fallback for very old browsers
-      el.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        cb(e);
-      }, { passive: false });
-
-      el.addEventListener("click", cb);
+      requestAnimationFrame(animateScroll);
     }
-  }
 
-  // Tags (top buttons)
-  tags.forEach((tag) => {
-    const targetId = tag.getAttribute("data-target");
-    addInstantListener(tag, () => goToSection(targetId));
-  });
-
-  // Headings clickable too
-  headings.forEach((h2) => {
-    const section = h2.parentElement;
-    const id = section.id;
-    if (!id) return;
-    addInstantListener(h2, () => goToSection(id));
-  });
-
-  // Optional: keep active tag while scrolling
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          if (id) setActiveTagById(id);
+    function setActiveTagById(id) {
+      tags.forEach((tag) => {
+        if (tag.getAttribute("data-target") === id) {
+          tag.classList.add("active");
+        } else {
+          tag.classList.remove("active");
         }
       });
-    },
-    { threshold: 0.45 }
-  );
+    }
 
-  sections.forEach((section) => observer.observe(section));
-</script>
+    tags.forEach((tag) => {
+      tag.addEventListener("click", () => {
+        const targetId = tag.getAttribute("data-target");
+        const section = document.getElementById(targetId);
 
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const headerOffset = 270;
+          const y = rect.top + window.scrollY - headerOffset;
+
+          smoothScrollTo(y, 1400);
+
+          sections.forEach((s) => s.classList.remove("highlight"));
+          section.classList.add("highlight");
+
+          setActiveTagById(targetId);
+
+          setTimeout(() => {
+            section.classList.remove("highlight");
+          }, 2000);
+        }
+      });
+    });
+
+    // Make headings clickable too (same behavior as tags)
+    const headings = document.querySelectorAll("main section h2");
+    headings.forEach((h2) => {
+      h2.addEventListener("click", () => {
+        const section = h2.parentElement;
+        const id = section.id;
+        if (!id) return;
+        const rect = section.getBoundingClientRect();
+        const headerOffset = 100;
+        const y = rect.top + window.scrollY - headerOffset;
+
+        smoothScrollTo(y, 1400);
+
+        sections.forEach((s) => s.classList.remove("highlight"));
+        section.classList.add("highlight");
+        setActiveTagById(id);
+
+        setTimeout(() => {
+          section.classList.remove("highlight");
+        }, 2000);
+      });
+    });
+
+    // IntersectionObserver: update active tag while scrolling
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id) {
+              setActiveTagById(id);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.45,
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  </script>
 </body>
 </html>
