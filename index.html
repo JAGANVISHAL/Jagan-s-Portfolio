@@ -585,119 +585,116 @@
   </div>
 
   <script>
-    // Set current year in footer
-    document.getElementById("year").textContent = new Date().getFullYear();
+  // Set current year in footer
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-    const tags = document.querySelectorAll(".tag[data-target]");
-    const sections = document.querySelectorAll("main section");
+  const tags = document.querySelectorAll(".tag[data-target]");
+  const sections = document.querySelectorAll("main section");
+  const headings = document.querySelectorAll("main section h2");
 
-    function smoothScrollTo(targetY, duration = 1400) {
-      const startY = window.scrollY;
-      const changeY = targetY - startY;
-      const startTime = performance.now();
+  // Smooth scroll function (you already had similar)
+  function smoothScrollTo(targetY, duration = 1000) {
+    const startY = window.scrollY;
+    const changeY = targetY - startY;
+    const startTime = performance.now();
 
-      function animateScroll(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+    function animateScroll(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
 
-        // Ease-in-out
-        const ease = progress < 0.5
-          ? 2 * progress * progress
-          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      // Ease-in-out
+      const ease = progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
-        window.scrollTo(0, startY + changeY * ease);
+      window.scrollTo(0, startY + changeY * ease);
 
-        if (progress < 1) requestAnimationFrame(animateScroll);
-      }
-
-      requestAnimationFrame(animateScroll);
+      if (progress < 1) requestAnimationFrame(animateScroll);
     }
 
-    function setActiveTagById(id) {
-      tags.forEach((tag) => {
-        if (tag.getAttribute("data-target") === id) {
-          tag.classList.add("active");
-        } else {
-          tag.classList.remove("active");
+    requestAnimationFrame(animateScroll);
+  }
+
+  function setActiveTagById(id) {
+    tags.forEach((tag) => {
+      if (tag.getAttribute("data-target") === id) {
+        tag.classList.add("active");
+      } else {
+        tag.classList.remove("active");
+      }
+    });
+  }
+
+  function goToSection(id) {
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+
+    // 👉 If your header is NOT sticky anymore, keep this small (like 10)
+    // If header is still fixed, increase this value (e.g. 200–240)
+    const headerOffset = 10;
+
+    const y = rect.top + window.scrollY - headerOffset;
+
+    smoothScrollTo(y, 1000);
+
+    sections.forEach((s) => s.classList.remove("highlight"));
+    section.classList.add("highlight");
+    setActiveTagById(id);
+
+    setTimeout(() => {
+      section.classList.remove("highlight");
+    }, 2000);
+  }
+
+  // Attach instant event handler (pointerdown -> no mobile delay)
+  function addInstantListener(el, cb) {
+    if (window.PointerEvent) {
+      el.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        cb(e);
+      });
+    } else {
+      // Fallback for very old browsers
+      el.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        cb(e);
+      }, { passive: false });
+
+      el.addEventListener("click", cb);
+    }
+  }
+
+  // Tags (top buttons)
+  tags.forEach((tag) => {
+    const targetId = tag.getAttribute("data-target");
+    addInstantListener(tag, () => goToSection(targetId));
+  });
+
+  // Headings clickable too
+  headings.forEach((h2) => {
+    const section = h2.parentElement;
+    const id = section.id;
+    if (!id) return;
+    addInstantListener(h2, () => goToSection(id));
+  });
+
+  // Optional: keep active tag while scrolling
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id) setActiveTagById(id);
         }
       });
-    }
-
-    function handleNavTap(targetId) {
-  const section = document.getElementById(targetId);
-  if (!section) return;
-
-  const rect = section.getBoundingClientRect();
-  const headerOffset = 270; // adjust if needed
-  const y = rect.top + window.scrollY - headerOffset;
-
-  smoothScrollTo(y, 1400);
-
-  sections.forEach((s) => s.classList.remove("highlight"));
-  section.classList.add("highlight");
-  setActiveTagById(targetId);
-
-  setTimeout(() => {
-    section.classList.remove("highlight");
-  }, 2000);
-}
-
-// helper: attach both touch and click without double-firing
-function addFastTapListener(el, cb) {
-  let touched = false;
-
-  el.addEventListener(
-    "touchstart",
-    (e) => {
-      touched = true;
-      cb(e);
     },
-    { passive: true }
+    { threshold: 0.45 }
   );
 
-  el.addEventListener("click", (e) => {
-    if (touched) {
-      // ignore the delayed click that comes after touch
-      touched = false;
-      return;
-    }
-    cb(e);
-  });
-}
+  sections.forEach((section) => observer.observe(section));
+</script>
 
-tags.forEach((tag) => {
-  const targetId = tag.getAttribute("data-target");
-  addFastTapListener(tag, () => handleNavTap(targetId));
-});
-
-    // Make headings clickable too (same behavior as tags)
-    const headings = document.querySelectorAll("main section h2");
-    headings.forEach((h2) => {
-  const section = h2.parentElement;
-  const id = section.id;
-  if (!id) return;
-
-  addFastTapListener(h2, () => handleNavTap(id));
-});
-
-    // IntersectionObserver: update active tag while scrolling
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
-            if (id) {
-              setActiveTagById(id);
-            }
-          }
-        });
-      },
-      {
-        threshold: 0.45,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  </script>
 </body>
 </html>
