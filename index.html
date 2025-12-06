@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jagan Vishal P � Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Portfolio of Jagan Vishal P, Entry-Level Software Developer skilled in Java, Python, SQL, HTML, CSS, and MySQL." />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.1);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 1.5rem;
+      padding: 1.75rem;
+      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(30,64,175,0.2));
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: 0 20px 40px rgba(15,23,42,0.7);
+      margin-bottom: 2rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      letter-spacing: 0.03em;
+    }
+
+    .role {
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    .contact {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      text-align: right;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 0.15rem 0.65rem;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.45);
+      color: var(--muted);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      .contact {
+        text-align: left;
+      }
+    }
+
+    section {
+      margin-bottom: 1.25rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .card {
+      background: rgba(15,23,42,0.92);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1rem 1.1rem;
+    }
+
+    .summary {
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(56,189,248,0.5);
+      color: #e0f2fe;
+    }
+
+    .list {
+      list-style: none;
+      font-size: 0.86rem;
+      color: #e5e7eb;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .list li::before {
+      content: "�";
+      position: absolute;
+      left: 0.25rem;
+      color: var(--accent);
+    }
+
+    .item-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.05rem;
+    }
+
+    .item-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .item-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .item-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .subtle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .two-col-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.25rem 1rem;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+    }
+
+    @media (max-width: 600px) {
+      .two-col-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .link-inline {
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-top">
+        <div>
+          <h1>JAGAN VISHAL P</h1>
+          <p class="role">Entry-Level Software Developer � BCA (Distance Education)</p>
+        </div>
+        <div class="contact">
+          <span>Mannargudi, Thiruvarur District, 614001</span>
+          <span>?? 7339448487</span>
+          <span>?? <a href="mailto:jaganvishal007@gmail.com">jaganvishal007@gmail.com</a></span>
+          <span>?? <a href="https://www.linkedin.com/in/jaganvishal-432836268" target="_blank">LinkedIn</a></span>
+          <span>?? 
+            <!-- TODO: replace this with your real GitHub profile URL, e.g. https://github.com/your-username -->
+            <a href="https://github.com/settings/profile" target="_blank">GitHub</a>
+          </span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">Java</span>
+        <span class="tag">Python</span>
+        <span class="tag">SQL / MySQL</span>
+        <span class="tag">HTML &amp; CSS</span>
+        <span class="tag">Tkinter</span>
+        <span class="tag">Team Lead (12 members)</span>
+        <span class="tag">BCA 2027</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT COLUMN -->
+      <div>
+        <!-- About / Summary -->
+        <section id="about">
+          <h2>About</h2>
+          <div class="card summary">
+            Entry-Level Software Developer with hands-on experience in
+            <strong>Java, Python, SQL, HTML, CSS, MySQL, and Tkinter</strong>. Strong foundation in
+            <strong>OOP, database systems, problem-solving, and debugging</strong>, with academic and
+            self-driven projects. Experienced in <strong>leading a 12-member team</strong> in
+            ePublishing, improving workflows and quality. Currently pursuing
+            <strong>BCA (Distance Education)</strong> from Bharathidasan University (Expected 2027),
+            and eager to contribute to real-world software development projects.
+          </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience">
+          <h2>Experience</h2>
+          <div class="card">
+            <div class="item-title-row">
+              <span class="item-title">Team Lead � ePublishing</span>
+              <span class="item-meta">June 11, 2025 � Dec 20, 2025 � 6 months</span>
+            </div>
+            <div class="item-sub">Handled digital content production and quality for an ePublishing team.</div>
+            <ul class="list">
+              <li>Led and guided a <strong>12-member team</strong>, managing task allocation and performance.</li>
+              <li>Achieved <strong>98% content accuracy</strong> and consistent on-time project delivery.</li>
+              <li>Used <strong>Epsilon, Adobe Acrobat, Photoshop, MS Word, Abby FineReader</strong> for content QA.</li>
+              <li>Improved workflow efficiency by <strong>20%</strong> through process optimization and clear delegation.</li>
+              <li>Applied <strong>HTML &amp; CSS</strong> for structuring and formatting digital content.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+          <h2>Projects</h2>
+          <div class="card">
+            <div class="item-title-row">
+              <span class="item-title">Random Password Generator (Python)</span>
+            </div>
+            <p class="subtle">
+              CLI-based Python project that generates secure random passwords using loops, character sets, and randomization logic.
+            </p>
+
+            <div class="item-title-row" style="margin-top:0.5rem;">
+              <span class="item-title">Tkinter + MySQL CRUD Application</span>
+            </div>
+            <p class="subtle">
+              Desktop application built with <strong>Python Tkinter</strong> and <strong>MySQL</strong>, implementing full CRUD
+              operations with form validation, data storage/retrieval, and user-friendly UI components.
+            </p>
+
+            <div class="item-title-row" style="margin-top:0.5rem;">
+              <span class="item-title">PLC-Based Street Light Controller</span>
+            </div>
+            <p class="subtle">
+              Automated street lighting system using PLC to reduce manual operation and improve energy efficiency using time-based control.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+        <!-- Skills -->
+        <section id="skills">
+          <h2>Technical Skills</h2>
+          <div class="card">
+            <p class="item-sub"><strong>Languages</strong></p>
+            <div class="two-col-list">
+              <span>Java � OOP, loops, methods, arrays</span>
+              <span>Python � Tkinter, patterns, data structures</span>
+              <span>SQL (MySQL) � queries, joins, DDL/DML</span>
+              <span>PHP � admin-level basics</span>
+            </div>
+
+            <p class="item-sub" style="margin-top:0.7rem;"><strong>Web</strong></p>
+            <div class="two-col-list">
+              <span>HTML � semantic markup</span>
+              <span>CSS � layout &#38; formatting</span>
+            </div>
+
+            <p class="item-sub" style="margin-top:0.7rem;"><strong>Tools &amp; Software</strong></p>
+            <div class="two-col-list">
+              <span>Eclipse, PyCharm</span>
+              <span>Code::Blocks, Visual Studio</span>
+              <span>Adobe Acrobat, Photoshop</span>
+              <span>MS Word, Excel</span>
+              <span>Epsilon</span>
+              <span>Abby FineReader</span>
+            </div>
+
+            <p class="item-sub" style="margin-top:0.7rem;"><strong>Other</strong></p>
+            <div class="two-col-list">
+              <span>Git (basic)</span>
+              <span>Windows, Android, iOS (familiar)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education -->
+        <section id="education">
+          <h2>Education</h2>
+          <div class="card">
+            <div class="item-title-row">
+              <span class="item-title">BCA � Distance Education</span>
+              <span class="item-meta">Bharathidasan University</span>
+            </div>
+            <p class="subtle">Currently Pursuing � Expected Graduation: 2027</p>
+
+            <div class="item-title-row" style="margin-top:0.6rem;">
+              <span class="item-title">Diploma in Electrical &amp; Electronics Engineering</span>
+              <span class="item-meta">Govt. Polytechnic College, Papanasam</span>
+            </div>
+            <p class="subtle">Completed: Aug 2022</p>
+          </div>
+        </section>
+
+        <!-- Training & Awards -->
+        <section id="training">
+          <h2>Training &amp; Achievements</h2>
+          <div class="card">
+            <ul class="list">
+              <li>Graduate Python Programming � CADD Center.</li>
+              <li>Java, SQL, HTML, CSS, Testing � QSpiders Institute.</li>
+              <li>ESIM Training by IIT Bombay (Spoken Tutorial Project), 2021.</li>
+              <li>First Class in Senior English Typewriting Exam, 2023.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Languages -->
+        <section id="languages">
+          <h2>Languages</h2>
+          <div class="card">
+            <div class="two-col-list">
+              <span>Tamil � Native</span>
+              <span>English � Professional</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      � <span id="year"></span> Jagan Vishal P � Open to Software Developer / Entry-Level Engineering roles
+    </footer>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
