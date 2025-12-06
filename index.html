@@ -398,7 +398,7 @@
       word-break: break-all;
     }
     section {
-  scroll-margin-top: 180px;
+  scroll-margin-top: 340px;
 }
   </style>
 </head>
@@ -628,7 +628,7 @@
   if (!section) return;
 
   const rect = section.getBoundingClientRect();
-  const headerOffset = 170; // adjust if needed
+  const headerOffset = 270; // adjust if needed
   const y = rect.top + window.scrollY - headerOffset;
 
   smoothScrollTo(y, 1400);
@@ -673,25 +673,12 @@ tags.forEach((tag) => {
     // Make headings clickable too (same behavior as tags)
     const headings = document.querySelectorAll("main section h2");
     headings.forEach((h2) => {
-      h2.addEventListener("click", () => {
-        const section = h2.parentElement;
-        const id = section.id;
-        if (!id) return;
-        const rect = section.getBoundingClientRect();
-        const headerOffset = 100;
-        const y = rect.top + window.scrollY - headerOffset;
+  const section = h2.parentElement;
+  const id = section.id;
+  if (!id) return;
 
-        smoothScrollTo(y, 1400);
-
-        sections.forEach((s) => s.classList.remove("highlight"));
-        section.classList.add("highlight");
-        setActiveTagById(id);
-
-        setTimeout(() => {
-          section.classList.remove("highlight");
-        }, 2000);
-      });
-    });
+  addFastTapListener(h2, () => handleNavTap(id));
+});
 
     // IntersectionObserver: update active tag while scrolling
     const observer = new IntersectionObserver(
