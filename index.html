@@ -623,29 +623,52 @@
       });
     }
 
-    tags.forEach((tag) => {
-      tag.addEventListener("click", () => {
-        const targetId = tag.getAttribute("data-target");
-        const section = document.getElementById(targetId);
+    function handleNavTap(targetId) {
+  const section = document.getElementById(targetId);
+  if (!section) return;
 
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          const headerOffset = 270;
-          const y = rect.top + window.scrollY - headerOffset;
+  const rect = section.getBoundingClientRect();
+  const headerOffset = 170; // adjust if needed
+  const y = rect.top + window.scrollY - headerOffset;
 
-          smoothScrollTo(y, 1400);
+  smoothScrollTo(y, 1400);
 
-          sections.forEach((s) => s.classList.remove("highlight"));
-          section.classList.add("highlight");
+  sections.forEach((s) => s.classList.remove("highlight"));
+  section.classList.add("highlight");
+  setActiveTagById(targetId);
 
-          setActiveTagById(targetId);
+  setTimeout(() => {
+    section.classList.remove("highlight");
+  }, 2000);
+}
 
-          setTimeout(() => {
-            section.classList.remove("highlight");
-          }, 2000);
-        }
-      });
-    });
+// helper: attach both touch and click without double-firing
+function addFastTapListener(el, cb) {
+  let touched = false;
+
+  el.addEventListener(
+    "touchstart",
+    (e) => {
+      touched = true;
+      cb(e);
+    },
+    { passive: true }
+  );
+
+  el.addEventListener("click", (e) => {
+    if (touched) {
+      // ignore the delayed click that comes after touch
+      touched = false;
+      return;
+    }
+    cb(e);
+  });
+}
+
+tags.forEach((tag) => {
+  const targetId = tag.getAttribute("data-target");
+  addFastTapListener(tag, () => handleNavTap(targetId));
+});
 
     // Make headings clickable too (same behavior as tags)
     const headings = document.querySelectorAll("main section h2");
