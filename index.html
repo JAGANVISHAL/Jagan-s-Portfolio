@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Jagan Vishal P � Portfolio</title>
+  <title>Jagan Vishal P – Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Portfolio of Jagan Vishal P, Entry-Level Software Developer skilled in Java, Python, SQL, HTML, CSS, and MySQL." />
   <style>
@@ -21,7 +21,10 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      scroll-behavior: smooth;
+    }
+
+    html {
+      scroll-behavior: smooth; /* we handle smooth scroll via JS */
     }
 
     body {
@@ -29,20 +32,36 @@
       background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
       color: var(--text);
       line-height: 1.6;
+      min-height: 100vh;
     }
 
     a {
       color: var(--accent);
       text-decoration: none;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
     }
     a:hover {
       text-decoration: underline;
+      color: #e0f2fe;
+      text-shadow: 0 0 8px rgba(56,189,248,0.6);
     }
 
     .page {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem 1.5rem 4rem;
+      animation: fadeInUp 0.7s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     header {
@@ -51,10 +70,14 @@
       gap: 1rem;
       border-radius: 1.5rem;
       padding: 1.75rem;
-      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(30,64,175,0.2));
-      border: 1px solid rgba(148,163,184,0.4);
-      box-shadow: 0 20px 40px rgba(15,23,42,0.7);
+      background: linear-gradient(135deg, rgba(56,189,248,0.14), rgba(30,64,175,0.28));
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: 0 24px 40px rgba(15,23,42,0.75);
       margin-bottom: 2rem;
+      position: sticky;
+      top: 1rem;
+      z-index: 10;
+      backdrop-filter: blur(14px);
     }
 
     .header-top {
@@ -66,8 +89,8 @@
     }
 
     h1 {
-      font-size: 1.8rem;
-      letter-spacing: 0.03em;
+      font-size: 1.9rem;
+      letter-spacing: 0.06em;
     }
 
     .role {
@@ -94,21 +117,68 @@
     }
 
     .tag {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       border-radius: 999px;
-      padding: 0.15rem 0.65rem;
-      background: rgba(15,23,42,0.8);
-      border: 1px solid rgba(148,163,184,0.45);
+      padding: 0.2rem 0.85rem;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
       color: var(--muted);
+      cursor: pointer;
+      border-width: 1px;
+      border-style: solid;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      position: relative;
+      overflow: hidden;
+      transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.25), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .tag:hover {
+      background: rgba(15,23,42,1);
+      border-color: var(--accent);
+      color: #e0f2fe;
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px rgba(56,189,248,0.5);
+    }
+
+    .tag:hover::before {
+      opacity: 1;
+    }
+
+    .tag.active {
+      background: rgba(56,189,248,0.12);
+      border-color: var(--accent);
+      color: #e0f2fe;
+      box-shadow: 0 0 14px rgba(56,189,248,0.6);
     }
 
     main {
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
       gap: 1.5rem;
+      margin-top: 1.25rem;
     }
 
     @media (max-width: 800px) {
+      header {
+        position: static;
+      }
       main {
         grid-template-columns: 1fr;
       }
@@ -119,6 +189,8 @@
 
     section {
       margin-bottom: 1.25rem;
+      scroll-margin-top: 110px; /* so it doesn't hide behind sticky header */
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     h2 {
@@ -127,6 +199,32 @@
       letter-spacing: 0.12em;
       color: var(--muted);
       margin-bottom: 0.4rem;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+      position: relative;
+      padding-bottom: 0.25rem;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(148,163,184,0.6), transparent);
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    h2:hover {
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(56,189,248,0.6);
+      cursor: pointer;
+    }
+
+    h2:hover::after {
+      width: 70px;
+      background: linear-gradient(90deg, var(--accent), transparent);
     }
 
     .card {
@@ -134,6 +232,61 @@
       border-radius: 1rem;
       border: 1px solid var(--border);
       padding: 1rem 1.1rem;
+      position: relative;
+      overflow: hidden;
+      transition:
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      background: rgba(15,23,42,0.97);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
+      transform: translateY(-3px) scale(1.005);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Highlighted section style + animation */
+    section.highlight {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section.highlight h2 {
+      color: var(--accent);
+    }
+
+    section.highlight .card {
+      border-color: var(--accent);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), rgba(15,23,42,0.98));
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.6), 0 0 30px rgba(56,189,248,0.3);
+      animation: pulseBorder 1.6s ease-out;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% {
+        box-shadow: 0 0 0 1px rgba(56,189,248,0.6), 0 0 22px rgba(56,189,248,0.26);
+      }
+      50% {
+        box-shadow: 0 0 0 1px rgba(56,189,248,0.9), 0 0 34px rgba(56,189,248,0.4);
+      }
     }
 
     .summary {
@@ -167,13 +320,19 @@
       position: relative;
       padding-left: 1.1rem;
       margin-bottom: 0.3rem;
+      transition: color 0.25s ease, transform 0.2s ease;
     }
 
     .list li::before {
-      content: "�";
+      content: "•";
       position: absolute;
       left: 0.25rem;
       color: var(--accent);
+    }
+
+    .list li:hover {
+      color: var(--accent);
+      transform: translateX(4px);
     }
 
     .item-title-row {
@@ -213,6 +372,15 @@
       color: #e5e7eb;
     }
 
+    .two-col-list span {
+      transition: color 0.25s ease, transform 0.2s ease;
+    }
+
+    .two-col-list span:hover {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
     @media (max-width: 600px) {
       .two-col-list {
         grid-template-columns: 1fr;
@@ -229,6 +397,9 @@
     .link-inline {
       word-break: break-all;
     }
+    section {
+  scroll-margin-top: 180px;
+}
   </style>
 </head>
 <body>
@@ -237,27 +408,27 @@
       <div class="header-top">
         <div>
           <h1>JAGAN VISHAL P</h1>
-          <p class="role">Entry-Level Software Developer � BCA (Distance Education)</p>
+          <p class="role">Entry-Level Software Developer</p> 
+          <p class="role">BCA (Distance Education)</p>
         </div>
         <div class="contact">
           <span>Mannargudi, Thiruvarur District, 614001</span>
-          <span>?? 7339448487</span>
-          <span>?? <a href="mailto:jaganvishal007@gmail.com">jaganvishal007@gmail.com</a></span>
-          <span>?? <a href="https://www.linkedin.com/in/jaganvishal-432836268" target="_blank">LinkedIn</a></span>
-          <span>?? 
-            <!-- TODO: replace this with your real GitHub profile URL, e.g. https://github.com/your-username -->
-            <a href="https://github.com/settings/profile" target="_blank">GitHub</a>
-          </span>
+          <span>📞 <a href="tel:7339448487">7339448487</a></span>
+          <span>📧 <a href="mailto:jaganvishal007@gmail.com">jaganvishal007@gmail.com</a></span>
+          <span>🔗 <a href="https://www.linkedin.com/in/jaganvishal-432836268" target="_blank">LinkedIn</a></span>
+          <span>🔗 <a href="https://github.com/settings/profile" target="_blank">GitHub</a></span>
         </div>
       </div>
+
+      <!-- NAV TAGS -->
       <div class="tags">
-        <span class="tag">Java</span>
-        <span class="tag">Python</span>
-        <span class="tag">SQL / MySQL</span>
-        <span class="tag">HTML &amp; CSS</span>
-        <span class="tag">Tkinter</span>
-        <span class="tag">Team Lead (12 members)</span>
-        <span class="tag">BCA 2027</span>
+        <button class="tag active" data-target="about">About</button>
+        <button class="tag" data-target="experience">Experience</button>
+        <button class="tag" data-target="projects">Projects</button>
+        <button class="tag" data-target="skills">Technical Skills</button>
+        <button class="tag" data-target="education">Education</button>
+        <button class="tag" data-target="training">Training &amp; Achievements</button>
+        <button class="tag" data-target="languages">Languages</button>
       </div>
     </header>
 
@@ -265,7 +436,7 @@
       <!-- LEFT COLUMN -->
       <div>
         <!-- About / Summary -->
-        <section id="about">
+        <section id="about" class="highlight">
           <h2>About</h2>
           <div class="card summary">
             Entry-Level Software Developer with hands-on experience in
@@ -283,8 +454,8 @@
           <h2>Experience</h2>
           <div class="card">
             <div class="item-title-row">
-              <span class="item-title">Team Lead � ePublishing</span>
-              <span class="item-meta">June 11, 2025 � Dec 20, 2025 � 6 months</span>
+              <span class="item-title">Team Lead – ePublishing</span>
+              <span class="item-meta">June 11, 2025 – Dec 20, 2025 · 6 months</span>
             </div>
             <div class="item-sub">Handled digital content production and quality for an ePublishing team.</div>
             <ul class="list">
@@ -334,16 +505,16 @@
           <div class="card">
             <p class="item-sub"><strong>Languages</strong></p>
             <div class="two-col-list">
-              <span>Java � OOP, loops, methods, arrays</span>
-              <span>Python � Tkinter, patterns, data structures</span>
-              <span>SQL (MySQL) � queries, joins, DDL/DML</span>
-              <span>PHP � admin-level basics</span>
+              <span>Java – OOP, loops, methods, arrays</span>
+              <span>Python – Tkinter, patterns, data structures</span>
+              <span>SQL (MySQL) – queries, joins, DDL/DML</span>
+              <span>PHP – admin-level basics</span>
             </div>
 
             <p class="item-sub" style="margin-top:0.7rem;"><strong>Web</strong></p>
             <div class="two-col-list">
-              <span>HTML � semantic markup</span>
-              <span>CSS � layout &#38; formatting</span>
+              <span>HTML – semantic markup</span>
+              <span>CSS – layout &#38; formatting</span>
             </div>
 
             <p class="item-sub" style="margin-top:0.7rem;"><strong>Tools &amp; Software</strong></p>
@@ -369,10 +540,10 @@
           <h2>Education</h2>
           <div class="card">
             <div class="item-title-row">
-              <span class="item-title">BCA � Distance Education</span>
+              <span class="item-title">BCA – Distance Education</span>
               <span class="item-meta">Bharathidasan University</span>
             </div>
-            <p class="subtle">Currently Pursuing � Expected Graduation: 2027</p>
+            <p class="subtle">Currently Pursuing – Expected Graduation: 2027</p>
 
             <div class="item-title-row" style="margin-top:0.6rem;">
               <span class="item-title">Diploma in Electrical &amp; Electronics Engineering</span>
@@ -387,8 +558,8 @@
           <h2>Training &amp; Achievements</h2>
           <div class="card">
             <ul class="list">
-              <li>Graduate Python Programming � CADD Center.</li>
-              <li>Java, SQL, HTML, CSS, Testing � QSpiders Institute.</li>
+              <li>Graduate Python Programming – CADD Center.</li>
+              <li>Java, SQL, HTML, CSS, Testing – QSpiders Institute.</li>
               <li>ESIM Training by IIT Bombay (Spoken Tutorial Project), 2021.</li>
               <li>First Class in Senior English Typewriting Exam, 2023.</li>
             </ul>
@@ -400,8 +571,8 @@
           <h2>Languages</h2>
           <div class="card">
             <div class="two-col-list">
-              <span>Tamil � Native</span>
-              <span>English � Professional</span>
+              <span>Tamil – Native</span>
+              <span>English – Professional</span>
             </div>
           </div>
         </section>
@@ -409,13 +580,114 @@
     </main>
 
     <footer>
-      � <span id="year"></span> Jagan Vishal P � Open to Software Developer / Entry-Level Engineering roles
+      © <span id="year"></span> Jagan Vishal P – Open to Software Developer / Entry-Level Engineering roles
     </footer>
   </div>
 
   <script>
     // Set current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const tags = document.querySelectorAll(".tag[data-target]");
+    const sections = document.querySelectorAll("main section");
+
+    function smoothScrollTo(targetY, duration = 1400) {
+      const startY = window.scrollY;
+      const changeY = targetY - startY;
+      const startTime = performance.now();
+
+      function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease-in-out
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        window.scrollTo(0, startY + changeY * ease);
+
+        if (progress < 1) requestAnimationFrame(animateScroll);
+      }
+
+      requestAnimationFrame(animateScroll);
+    }
+
+    function setActiveTagById(id) {
+      tags.forEach((tag) => {
+        if (tag.getAttribute("data-target") === id) {
+          tag.classList.add("active");
+        } else {
+          tag.classList.remove("active");
+        }
+      });
+    }
+
+    tags.forEach((tag) => {
+      tag.addEventListener("click", () => {
+        const targetId = tag.getAttribute("data-target");
+        const section = document.getElementById(targetId);
+
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const headerOffset = 270;
+          const y = rect.top + window.scrollY - headerOffset;
+
+          smoothScrollTo(y, 1400);
+
+          sections.forEach((s) => s.classList.remove("highlight"));
+          section.classList.add("highlight");
+
+          setActiveTagById(targetId);
+
+          setTimeout(() => {
+            section.classList.remove("highlight");
+          }, 2000);
+        }
+      });
+    });
+
+    // Make headings clickable too (same behavior as tags)
+    const headings = document.querySelectorAll("main section h2");
+    headings.forEach((h2) => {
+      h2.addEventListener("click", () => {
+        const section = h2.parentElement;
+        const id = section.id;
+        if (!id) return;
+        const rect = section.getBoundingClientRect();
+        const headerOffset = 100;
+        const y = rect.top + window.scrollY - headerOffset;
+
+        smoothScrollTo(y, 1400);
+
+        sections.forEach((s) => s.classList.remove("highlight"));
+        section.classList.add("highlight");
+        setActiveTagById(id);
+
+        setTimeout(() => {
+          section.classList.remove("highlight");
+        }, 2000);
+      });
+    });
+
+    // IntersectionObserver: update active tag while scrolling
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id) {
+              setActiveTagById(id);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.45,
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
   </script>
 </body>
 </html>
