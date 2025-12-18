@@ -909,8 +909,9 @@ const downloadLink = document.getElementById("certDownload");
 document.querySelectorAll(".cert-open").forEach((btn) => {
   btn.addEventListener("click", () => {
     const file = btn.getAttribute("data-cert");
-    frame.src = file + "#toolbar=0&navpanes=0&scrollbar=1";
-    downloadLink.href = file;
+    frame.src = file + "#toolbar=0&navpanes=0";
+downloadLink.href = file;
+
 
     modal.classList.add("active");
     document.body.classList.add("modal-open");
