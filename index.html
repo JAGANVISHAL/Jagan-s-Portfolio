@@ -34,17 +34,6 @@
       line-height: 1.6;
       min-height: 100vh;
     }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 2s ease, text-shadow 2s ease;
-    }
-    a:hover {
-      text-decoration: underline;
-      color: #e0f2fe;
-      text-shadow: 0 0 8px rgba(56,189,248,0.6);
-    }
 .tag,
 h2 {
   -webkit-user-select: none;
@@ -453,9 +442,147 @@ a:visited {
     .link-inline {
       word-break: break-all;
     }
-    section {
-  scroll-margin-top: 180px;
+
+
+/* Certificates grid */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
 }
+
+.cert-card {
+  background: rgba(15,23,42,0.9);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: left;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 0 18px rgba(56,189,248,0.3);
+}
+
+.cert-card a {
+  font-weight: 600;
+  color: #e5e7eb;
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
+
+.cert-card a:hover {
+  color: var(--accent);
+}
+
+.cert-card p {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+/* Certificate Modal Overlay */
+.cert-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.cert-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Box */
+.cert-modal-content {
+  background: #020617;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 900px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.35s ease;
+  border: 1px solid var(--border);
+}
+
+.cert-modal.active .cert-modal-content {
+  transform: scale(1);
+}
+
+/* Header */
+.cert-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #020617;
+  border-bottom: 1px solid var(--border);
+}
+
+.cert-modal-header span {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Buttons */
+.cert-btn {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.cert-btn:hover {
+  background: var(--accent);
+  color: #020617;
+}
+
+/* Iframe viewer */
+.cert-viewer {
+  flex: 1;
+  border: none;
+  width: 100%;
+}
+
+/* Disable background scroll when modal open */
+body.modal-open {
+  overflow: hidden;
+}
+/* Make certificate items look like project text */
+.cert-open {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #e5e7eb;        /* same text color */
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  display: inline;
+}
+
+/* Hover effect like links */
+.cert-open:hover {
+  color: var(--accent);
+}
+
+
+
   </style>
 </head>
 <body>
@@ -484,6 +611,7 @@ a:visited {
         <button class="tag" data-target="skills">Technical Skills</button>
         <button class="tag" data-target="education">Education</button>
         <button class="tag" data-target="training">Training &amp; Achievements</button>
+        <button class="tag" data-target="certificates">Certificates</button>
         <button class="tag" data-target="languages">Languages</button>
       </div>
     </header>
@@ -523,6 +651,7 @@ a:visited {
             </ul>
           </div>
         </section>
+        
 
         <!-- Projects -->
         <section id="projects">
@@ -551,7 +680,40 @@ a:visited {
             </p>
           </div>
         </section>
+        <!-- Certificates -->
+<section id="certificates">
+  <h2>Certificates</h2>
+  <div class="card">
+    <ul class="list">
+      <li>
+       <button class="cert-open" data-cert="certificates/python-certificate.pdf">
+  📄 Python Programming
+</button>
+      </li>
+
+      <li>
+        <button class="cert-open" data-cert="certificates/java-fullstack.pdf">
+  📄 Java Full Stack Development
+</button>
+      </li>
+
+      <li>
+        <button class="cert-open" data-cert="certificates/tcsion-communication.pdf">
+  📄 TCS iON Career Edge – Communication Skills
+</button>
+      </li>
+
+      <li>
+        <button class="cert-open" data-cert="certificates/typewriting-certificate.pdf">
+  📄 English Typewriting (First Class)
+</button>
+      </li>
+    </ul>
+  </div>
+</section>
+
       </div>
+      
 
       <!-- RIGHT COLUMN -->
       <div>
@@ -566,6 +728,7 @@ a:visited {
               <span>SQL (MySQL) – queries, joins, DDL/DML</span>
               <span>PHP – admin-level basics</span>
             </div>
+            
 
             <p class="item-sub" style="margin-top:0.7rem;"><strong>Web</strong></p>
             <div class="two-col-list">
@@ -621,6 +784,7 @@ a:visited {
             </ul>
           </div>
         </section>
+        
 
         <!-- Languages -->
         <section id="languages">
@@ -632,6 +796,7 @@ a:visited {
             </div>
           </div>
         </section>
+        
       </div>
     </main>
 
@@ -639,7 +804,20 @@ a:visited {
       © <span id="year"></span> Jagan Vishal P – Open to Software Developer / Entry-Level Engineering roles
     </footer>
   </div>
+<!-- Certificate Modal -->
+<div class="cert-modal" id="certModal">
+  <div class="cert-modal-content">
+    <div class="cert-modal-header">
+      <span>Certificate Preview</span>
+      <div>
+        <a id="certDownload" class="cert-btn" download>Download</a>
+        <button class="cert-btn" onclick="closeCert()">Close</button>
+      </div>
+    </div>
 
+    <iframe id="certFrame" class="cert-viewer"></iframe>
+  </div>
+</div>
   <script>
     // Set current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -704,27 +882,7 @@ a:visited {
     });
 
     // Make headings clickable too (same behavior as tags)
-    const headings = document.querySelectorAll("main section h2");
-    headings.forEach((h2) => {
-      h2.addEventListener("click", () => {
-        const section = h2.parentElement;
-        const id = section.id;
-        if (!id) return;
-        const rect = section.getBoundingClientRect();
-        const headerOffset = 100;
-        const y = rect.top + window.scrollY - headerOffset;
-
-        smoothScrollTo(y, 1400);
-
-        sections.forEach((s) => s.classList.remove("highlight"));
-        section.classList.add("highlight");
-        setActiveTagById(id);
-
-        setTimeout(() => {
-          section.classList.remove("highlight");
-        }, 2000);
-      });
-    });
+   
 
     // IntersectionObserver: update active tag while scrolling
     const observer = new IntersectionObserver(
@@ -744,6 +902,33 @@ a:visited {
     );
 
     sections.forEach((section) => observer.observe(section));
+    const modal = document.getElementById("certModal");
+const frame = document.getElementById("certFrame");
+const downloadLink = document.getElementById("certDownload");
+
+document.querySelectorAll(".cert-open").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const file = btn.getAttribute("data-cert");
+    frame.src = file + "#toolbar=0&navpanes=0&scrollbar=1";
+    downloadLink.href = file;
+
+    modal.classList.add("active");
+    document.body.classList.add("modal-open");
+  });
+});
+
+function closeCert() {
+  modal.classList.remove("active");
+  document.body.classList.remove("modal-open");
+  frame.src = "";
+}
+
+/* Close when clicking outside content */
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) closeCert();
+});
   </script>
+  
+
 </body>
 </html>
