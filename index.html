@@ -510,13 +510,13 @@ a:visited {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform: scale(0.9);
+  transform: scale(1.2);
   transition: transform 0.35s ease;
   border: 1px solid var(--border);
 }
 
 .cert-modal.active .cert-modal-content {
-  transform: scale(1);
+  transform: scale(0.9);
 }
 
 /* Header */
@@ -909,9 +909,16 @@ const downloadLink = document.getElementById("certDownload");
 document.querySelectorAll(".cert-open").forEach((btn) => {
   btn.addEventListener("click", () => {
     const file = btn.getAttribute("data-cert");
-    frame.src = file + "#toolbar=0&navpanes=0";
-downloadLink.href = file;
 
+    // 📱 Mobile behavior
+    if (isMobile()) {
+      window.open(file, "_blank");
+      return;
+    }
+
+    // 💻 Desktop behavior
+    frame.src = file + "#toolbar=0&navpanes=0";
+    downloadLink.href = file;
 
     modal.classList.add("active");
     document.body.classList.add("modal-open");
@@ -928,6 +935,10 @@ function closeCert() {
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeCert();
 });
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
   </script>
   
 
